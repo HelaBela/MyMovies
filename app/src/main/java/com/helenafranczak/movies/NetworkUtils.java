@@ -15,8 +15,11 @@ import java.util.Scanner;
  */
 
 public class NetworkUtils {
+    /** Tag for the log messages */
+    public static final String LOG_TAG = NetworkUtils.class.getSimpleName();
 
-    public static final String MOVIES_URL = "http://helenafranczak.com";
+
+    public static final String MOVIES_URL = "http://api.themoviedb.org/3/movie/popular?api_key=";
 
     public static URL buildUrl(String MOVIES_URL){
 
