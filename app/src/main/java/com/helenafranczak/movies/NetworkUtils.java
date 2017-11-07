@@ -19,7 +19,7 @@ public class NetworkUtils {
     public static final String LOG_TAG = NetworkUtils.class.getSimpleName();
 
 
-    public static final String MOVIES_URL = "http://api.themoviedb.org/3/movie/popular?api_key=";
+    public static final String MOVIES_URL = "http://api.themoviedb.org/3/movie/popular?api_key=ee8c1bdeedf50e5d13ed3140d9272edb";
 
     public static URL buildUrl(String MOVIES_URL){
 
