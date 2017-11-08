@@ -7,15 +7,10 @@ import android.util.Log;
 import android.widget.GridView;
 import android.widget.TextView;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.concurrent.TimeoutException;
+import java.util.HashMap;
 
 import static com.helenafranczak.movies.NetworkUtils.MOVIES_URL;
 
@@ -26,7 +21,6 @@ public class MainActivity extends AppCompatActivity {
     String title;
     String poster;
     Integer popularity;
-    String[] parsedWeatherData = null;
 
     GridView gridView;
 
@@ -44,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
     // how to populate array list with objects
 
-    ArrayList<Movie> AllMovies;
+    ArrayList<HashMap<String, String>> AllMovies;
 
 
     @Override
@@ -55,69 +49,21 @@ public class MainActivity extends AppCompatActivity {
 
         text = (TextView) findViewById(R.id.text);
 
-        //gridView = (GridView)findViewById(R.id.grid);
+      //  gridView = (GridView)findViewById(R.id.grid);
 
-        textResult=(TextView)findViewById(R.id.textResult) ;
+       // textResult=(TextView)findViewById(R.id.textResult) ;
 
         URL url = NetworkUtils.buildUrl(MOVIES_URL);
 
+        AllMovies= new ArrayList<>();
+
         new MoviesQuery().execute(url);
-
-        AllMovies = new ArrayList<Movie>();
-        Movie object= new Movie(title, popularity, poster);
-        AllMovies.add(object);
-
-//        movies = new ArrayList<Movie>();
-//
-//
-//        for (int i = 0; i < 20; i++) {
-//
-//            Movie movie = new Movie(title, popularity, poster);
-//
-//
-//            movies.add(movie);
-//
-//        }
-
-        //  parsedWeatherData
-
-        //  movies = new ArrayList<Movie>(Arrays.asList(parsedWeatherData[]));
-
-        //  GridView gridView = (GridView) findViewById(R.id.grid);
-        //  gridView.setAdapter(adapter);
-
-        //3 step to put the data from array of objects
-
-
-//        for(int i=0; i<20; i++){
-//
-//            movies.add(new Movie (title, popularity, poster));
-//        }
-//
-//        Log.e("my movies", movies.toString());
-
-
-//
-//        ArrayList<Movie> movies= new ArrayList<Movie>();
-//        JSONArray resultsArray = (JSONArray)jsonObject;
-//
-//            for (int i=0;i<jArray.length();i++){
-//               3 movies.add(jArray.getString(i));
-//            }
-
-
-//         public Movie(title, poster, popularity){
-//
-//
-//
-//        }
-//
     }
 
 
-    public class MoviesQuery extends AsyncTask<URL, Void, String[]> {
+    public class MoviesQuery extends AsyncTask<URL, Void, ArrayList<Movie>> {
         @Override
-        protected String[] doInBackground(URL... urls) {
+        protected ArrayList<Movie> doInBackground(URL... urls) {
             URL movieUrl = urls[0];
             String result = "";
 
@@ -126,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
                 String jsonMovieResponse = NetworkUtils
                         .getResponseFromHttpUrl(movieUrl);
 
-                String[] simpleJsonMovieResponse = JSON.getStringsFromJson(MainActivity.this, jsonMovieResponse);
+                ArrayList<Movie> simpleJsonMovieResponse = JSONparsing.getStringsFromJson(MainActivity.this, jsonMovieResponse);
 
                 return simpleJsonMovieResponse;
 
@@ -138,75 +84,34 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(String[] result) {
+        protected void onPostExecute(ArrayList<Movie> result) {
             if(result!=null){
 
 
-                for(String movieString: result){
+                   Log.e("my movies", String.valueOf(result));
 
-                    Log.e("movies" , String.valueOf(AllMovies));
 
-                   //textResult.append((movieString)+ "\n\n\n");
+//              Movie movie =new Movie(poster, popularity, title);
+//               AllMovies.add(movie);
+
+                 //The onPostExecute() takes a String[] result as an input, which is the simpleJsonMovieResponse returned by the doInBackground().
+                    //  That string is the answer received from the server and it’s in JSON format, so you have to parse it
+
+
+                    //text.append((movieString)+ "\n\n\n");
+             // Log.e("my movies", movieString);
+            }
+
+
 
                 }
 
             }
 
 
-
-
-
-
-//        try{
-//
-//        JSONObject jsonObject = new JSONObject(result);
-//        JSONArray resultsArray= jsonObject.getJSONArray("results");
-//
-//        //for loop to go thru each element of the results array . Index 0-19. Every element I will create . access each item
-//            // new movie object and populate
-//
-//
-//             /* String array to hold each movie's details  */
-//
-//            parsedWeatherData = new String[resultsArray.length()];
-//
-//
-//            for( int i = 0; i<resultsArray.length(); i++){
-//
-//                /* Getting the JSON object representing one movie */
-//
-//                JSONObject movieJson = resultsArray.getJSONObject(i);
-//
-//                title = movieJson.getString("original_title");
-//                popularity = movieJson.getInt("popularity");
-//                poster = movieJson.getString("poster_path");
-//
-//
-//
-//                parsedWeatherData[i]= title+popularity+poster;
-//
-//
-//
-////              Object oneMovie = new oneMovie(title, popularity, poster);
-////
-////              ArrayList<Movie> myList = new ArrayList(resultsArray.length());
-//
-//               // myList.add(oneMovie);
-//
-//               // myList.add(title, popularity, poster);
-//
-//              Log.e("my movies", String.valueOf(movies));
-//            }
-//
-//
-//    }catch (JSONException e) {
-//            e.printStackTrace();
-//
-//        }
-//
         }
-    }
-}
+
+
 
 
 

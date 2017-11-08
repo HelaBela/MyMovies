@@ -1,10 +1,12 @@
 package com.helenafranczak.movies;
 
+import java.util.HashMap;
+
 /**
  * Created by helenafranczak on 3/11/17.
  */
 
-public class Movie {
+public class Movie  {
 
     public final String title;
 
@@ -20,6 +22,10 @@ public class Movie {
         popularity = moviePopularity;
         poster = moviePoster;
     }
+
+//    public void setTitle(String title){
+//        title= movieTitle;
+//    }
 
 
 }
