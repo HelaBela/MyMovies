@@ -8,13 +8,13 @@ import java.util.HashMap;
 
 public class Movie  {
 
-    public final String title;
+    public String title;
 
 
-    public final Integer popularity;
+    public  Integer popularity;
 
 
-    public final String poster;
+    public  String poster;
 
 
     public Movie(String movieTitle, Integer moviePopularity, String moviePoster) {
@@ -23,9 +23,53 @@ public class Movie  {
         poster = moviePoster;
     }
 
-//    public void setTitle(String title){
-//        title= movieTitle;
+    public void setTitle(String title){
+        this.title = title;
+    }
+
+    public String getTitle(){
+       return title;
+
+    }
+
+    public void setPopularity(Integer popularity){
+        this.popularity = popularity;
+    }
+
+    public  Integer getPopularity(){
+        return popularity;
+
+    }
+
+    public void setPoster(String poster){
+        this.poster = poster;
+    }
+
+    public  String getPoster(){
+        return poster;
+
+    }
+
+//    @Override
+//    public int compareTo(Student comparestu) {
+//        int compareage=((Student)comparestu).getStudentage();
+//        /* For Ascending order*/
+//        return this.studentage-compareage;
+//
+//        /* For Descending order do like this */
+//        //return compareage-this.studentage;
 //    }
+//
+//    @Override
+//    public String toString() {
+//        return "[ rollno=" + rollno + ", name=" + studentname + ", age=" + studentage + "]";
+//    }
+//
+//}
+
+
+
+
 
 
 }

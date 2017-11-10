@@ -1,15 +1,24 @@
 package com.helenafranczak.movies;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.TextView;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 
 import static com.helenafranczak.movies.NetworkUtils.MOVIES_URL;
@@ -17,28 +26,12 @@ import static com.helenafranczak.movies.NetworkUtils.MOVIES_URL;
 public class MainActivity extends AppCompatActivity {
 
     TextView text;
-    TextView textResult;
-    String title;
-    String poster;
-    Integer popularity;
 
     GridView gridView;
 
-    // Adapter adapter;
+    ArrayAdapter<Movie> myAdapter;
 
-    //Movie[] movies;
-
-//    Movie[] movies={
-//            new Movie ("title",823, "http://image.tmdb.org/t/p/"+"w185" + poster)
-//
-//    };
-//
-
-    //step 2 create array list of type movie object here. 20 movie objects will come here.
-
-    // how to populate array list with objects
-
-    ArrayList<HashMap<String, String>> AllMovies;
+    ArrayList<Movie> moviesList;
 
 
     @Override
@@ -46,20 +39,24 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+     text = (TextView) findViewById(R.id.text);
 
-        text = (TextView) findViewById(R.id.text);
+      gridView = (GridView)findViewById(R.id.grid);
 
-      //  gridView = (GridView)findViewById(R.id.grid);
+      moviesList = new ArrayList<Movie>();
 
-       // textResult=(TextView)findViewById(R.id.textResult) ;
+
+
 
         URL url = NetworkUtils.buildUrl(MOVIES_URL);
 
-        AllMovies= new ArrayList<>();
-
         new MoviesQuery().execute(url);
-    }
 
+        myAdapter = new Adapter(this, 0 , moviesList);
+
+        gridView.setAdapter(myAdapter);
+
+    }
 
     public class MoviesQuery extends AsyncTask<URL, Void, ArrayList<Movie>> {
         @Override
@@ -87,29 +84,53 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(ArrayList<Movie> result) {
             if(result!=null){
 
+                myAdapter.addAll(result);
+                myAdapter.notifyDataSetChanged();
 
-                   Log.e("my movies", String.valueOf(result));
-
-
-//              Movie movie =new Movie(poster, popularity, title);
-//               AllMovies.add(movie);
-
-                 //The onPostExecute() takes a String[] result as an input, which is the simpleJsonMovieResponse returned by the doInBackground().
-                    //  That string is the answer received from the server and it’s in JSON format, so you have to parse it
-
-
-                    //text.append((movieString)+ "\n\n\n");
-             // Log.e("my movies", movieString);
-            }
-
-
-
-                }
+                //Log.e("myArray", String.valueOf(moviesArray));
 
             }
+
+    }
+
+}
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int menuItemThatWasSelected= item.getItemId();
+        if(menuItemThatWasSelected==R.id.action_popularity){
+
+            //Context context = MainActivity.this;
+
+//            Collections.sort(moviesList, new Comparator<Movie>() {
+//                @Override
+//                public int compare(Movie movie, Movie nextMovie) {
+//                    return 0;
+//                }
+//            });
 
 
         }
+
+        if(menuItemThatWasSelected==R.id.action_rating){
+
+            Context context = MainActivity.this;
+
+
+
+        }
+
+
+        return super.onOptionsItemSelected(item);
+    }
+}
 
 
 
