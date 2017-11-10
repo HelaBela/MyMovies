@@ -1,12 +1,15 @@
 package com.helenafranczak.movies;
 
+import android.support.annotation.NonNull;
+
 import java.util.HashMap;
 
 /**
  * Created by helenafranczak on 3/11/17.
  */
+//public class Movie implements Comparable<Movie> {
 
-public class Movie  {
+public class Movie {
 
     public String title;
 
@@ -50,26 +53,23 @@ public class Movie  {
 
     }
 
-//    @Override
-//    public int compareTo(Student comparestu) {
-//        int compareage=((Student)comparestu).getStudentage();
-//        /* For Ascending order*/
-//        return this.studentage-compareage;
-//
-//        /* For Descending order do like this */
-//        //return compareage-this.studentage;
-//    }
 //
 //    @Override
-//    public String toString() {
-//        return "[ rollno=" + rollno + ", name=" + studentname + ", age=" + studentage + "]";
+//    public int compareTo(@NonNull Movie movieCompare) {
+//        int comparePopularity = ((Movie)movieCompare).getPopularity();
+//
+//        return this.popularity-comparePopularity;
 //    }
 //
-//}
-
-
 
 
 
 
 }
+
+
+
+
+
+
+

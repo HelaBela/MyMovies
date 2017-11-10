@@ -19,13 +19,43 @@ public class NetworkUtils {
     public static final String LOG_TAG = NetworkUtils.class.getSimpleName();
 
 
-    public static final String MOVIES_URL = "http://api.themoviedb.org/3/movie/popular?api_key=";
+    public static final String POPULAR_URL = "http://api.themoviedb.org/3/movie/popular?api_key=";
+
+    public static final String RATED_URL = "http://api.themoviedb.org/3/movie/top_rated?api_key=";
+
+
 
     public static URL buildUrl(String MOVIES_URL){
 
-        Uri builtUri = Uri.parse(MOVIES_URL).buildUpon().build();
+        Uri builtUri;
+
 
         URL url = null;
+
+
+        switch(MOVIES_URL){
+
+            case"popular":{
+                builtUri = Uri.parse(POPULAR_URL).buildUpon().build();
+
+                break;
+            }
+
+            case"rated":{
+                builtUri = Uri.parse(RATED_URL).buildUpon().build();
+
+                break;
+
+            }
+
+            default:{
+                builtUri = Uri.parse(POPULAR_URL).buildUpon().build();
+
+                break;
+            }
+
+        }
+
 
         try {
             url = new URL(builtUri.toString());
