@@ -1,5 +1,6 @@
 package com.helenafranczak.movies;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -39,14 +40,11 @@ public class MainActivity extends AppCompatActivity {
 
       moviesList = new ArrayList<Movie>();
 
-        url = NetworkUtils.buildUrl("");
+        url = NetworkUtils.buildUrl("popular");
 
 
         new MoviesQuery().execute(url);
 
-        myAdapter = new Adapter(this, 0 , moviesList);
-
-        gridView.setAdapter(myAdapter);
 
     }
 
@@ -74,7 +72,15 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(ArrayList<Movie> result) {
+
+            myAdapter = new Adapter(MainActivity.this, 0 , moviesList);
+
+
+            gridView.setAdapter(myAdapter);
+
             if(result!=null){
+
+
 
                 myAdapter.addAll(result);
                 myAdapter.notifyDataSetChanged();
