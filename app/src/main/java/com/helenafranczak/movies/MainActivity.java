@@ -73,13 +73,12 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(ArrayList<Movie> result) {
 
-            myAdapter = new Adapter(MainActivity.this, 0 , moviesList);
+            myAdapter = new Adapter(MainActivity.this, 0 , result);
 
 
             gridView.setAdapter(myAdapter);
 
             if(result!=null){
-
 
 
                 myAdapter.addAll(result);
@@ -102,23 +101,25 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
+        URL mUrl;
+
         int menuItemThatWasSelected= item.getItemId();
         if(menuItemThatWasSelected==R.id.action_popularity){
 
-            NetworkUtils.buildUrl("popular");
+            mUrl  = NetworkUtils.buildUrl("popular");
 
-
+            new MoviesQuery().execute(mUrl);
 
 
         }
 
         if(menuItemThatWasSelected==R.id.action_rating){
 
-            NetworkUtils.buildUrl("rated");
 
 
+            mUrl = NetworkUtils.buildUrl("rated");
 
-
+            new MoviesQuery().execute(mUrl);
         }
 
         return super.onOptionsItemSelected(item);
