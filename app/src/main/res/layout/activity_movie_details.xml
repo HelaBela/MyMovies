@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.helenafranczak.movies.MovieDetails">
+
+
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:id="@+id/posterImage"
+        />
+
+    <TextView
+        android:layout_toRightOf="@+id/posterImage"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/movieTitle"
+        android:text="Title this is "
+        />
+    <TextView
+        android:id="@+id/plot"
+       android:layout_toEndOf="@+id/posterImage"
+      android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/movieTitle"
+        android:layout_marginTop="20dp"
+        android:text="In a small town in Maine, seven children known as The Losers Club come face to face with life problems, bullies and a monster that takes the shape of a clown called Pennywise."/>
+
+
+    <TextView
+        android:id="@+id/rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/posterImage"
+        android:text="Vote avarage: 456.34"
+        />
+
+    <TextView
+        android:id="@+id/release"
+        android:layout_below="@+id/rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Release date: 20.12.2016"/>
+</RelativeLayout>

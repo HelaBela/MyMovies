@@ -40,25 +40,30 @@ public class JSONparsing {
 
                 /* These are the values that will be collected */
                 String movieTitle;
-                Integer moviePopularity;
+                Float movieVote;
                 String moviePoster;
+                String moviePlot;
+                String movieDate;
+
 
                 /* Getting the JSONparsing object representing one movie */
 
                 JSONObject movieJson = resultsArray.getJSONObject(i);
 
                 movieTitle = movieJson.getString("original_title");
-                moviePopularity = movieJson.getInt("popularity");
+                movieVote = (Float) movieJson.get("vote_average");
                 moviePoster = movieJson.getString("poster_path");
+                moviePlot = movieJson.getString("overview");
+                movieDate = String.valueOf(movieJson.get("release_date"));
 
-                Movie oneMovie = new Movie(movieTitle, moviePopularity, moviePoster);
+                Movie oneMovie = new Movie(movieTitle, movieVote, moviePoster, moviePlot, movieDate);
 
                 myList.add(oneMovie);
 
 
-                // parsedMovieData[i] = movieTitle + moviePopularity + moviePoster;
+                // parsedMovieData[i] = movieTitle + movieVote + moviePoster;
 
-                //moviesArray[i] = new Movie(movieTitle, moviePopularity, moviePoster);
+                //moviesArray[i] = new Movie(movieTitle, movieVote, moviePoster);
 
 
 //                 ArrayList movieList = new ArrayList();
@@ -66,7 +71,7 @@ public class JSONparsing {
 //                HashMap<String, String> one = new HashMap<>();
 //
 //                one.put("title", movieTitle);
-//                one.put("popularity", String.valueOf(moviePopularity));
+//                one.put("popularity", String.valueOf(movieVote));
 //                one.put("poster", moviePoster);
 //
 //                movieList.add(one);

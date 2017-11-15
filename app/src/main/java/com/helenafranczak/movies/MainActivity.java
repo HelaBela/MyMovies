@@ -1,11 +1,14 @@
 package com.helenafranczak.movies;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.TextView;
@@ -14,14 +17,13 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 
-import static com.helenafranczak.movies.NetworkUtils.POPULAR_URL;
-import static com.helenafranczak.movies.NetworkUtils.RATED_URL;
-
 public class MainActivity extends AppCompatActivity {
 
     TextView text;
 
     GridView gridView;
+
+    Adapter myAdapter1;
 
     ArrayAdapter<Movie> myAdapter;
 
@@ -40,10 +42,30 @@ public class MainActivity extends AppCompatActivity {
 
       moviesList = new ArrayList<Movie>();
 
+        myAdapter = new Adapter(MainActivity.this, 0 , moviesList);
+
+
+        gridView.setAdapter(myAdapter);
+
         url = NetworkUtils.buildUrl("popular");
 
 
         new MoviesQuery().execute(url);
+
+
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+
+                Movie movieDetail = myAdapter1.getItem(position) ;
+                Intent intent = new Intent(MainActivity.this, MovieDetails.class);
+                intent.putExtra("movieDetail", movieDetail);
+                startActivity(intent);
+
+
+            }
+        });
 
 
     }
@@ -73,10 +95,12 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(ArrayList<Movie> result) {
 
-            myAdapter = new Adapter(MainActivity.this, 0 , result);
+            //this adaper is to populate the list with updated data
+
+            myAdapter1 = new Adapter(MainActivity.this, 0 , result);
 
 
-            gridView.setAdapter(myAdapter);
+            gridView.setAdapter(myAdapter1);
 
             if(result!=null){
 
