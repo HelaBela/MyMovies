@@ -16,7 +16,7 @@ public class Movie implements Parcelable{
     public String title;
 
 
-    public  Float rating;
+    public  Double rating;
 
 
     public  String poster;
@@ -26,7 +26,7 @@ public class Movie implements Parcelable{
     public  String plot;
 
 
-    public Movie(String movieTitle, Float movieRating, String moviePoster, String moviePlot, String movieDate) {
+    public Movie(String movieTitle, Double movieRating, String moviePoster, String moviePlot, String movieDate) {
         title = movieTitle;
         rating = movieRating;
         this.poster = moviePoster;
@@ -38,14 +38,13 @@ public class Movie implements Parcelable{
 
     protected Movie(Parcel in) {
         title = in.readString();
-        if (in.readByte() == 0) {
-            rating = null;
-        } else {
-            rating = in.readFloat();
-        }
+
+       rating = in.readDouble();
+
         poster = in.readString();
-        date = in.readString();
         plot = in.readString();
+        date = in.readString();
+
     }
 
     public static final Creator<Movie> CREATOR = new Creator<Movie>() {
@@ -68,10 +67,10 @@ public class Movie implements Parcelable{
 
     }
 
-    public void setRating(Float rating){
+    public void setRating(Double rating){
         this.rating = rating;
     }
-    public  Float getRating(){
+    public  Double getRating(){
         return rating;
 
     }
@@ -103,7 +102,7 @@ public class Movie implements Parcelable{
     public void writeToParcel(Parcel out, int i) {
 
         out.writeString(title);
-        out.writeFloat(rating);
+        out.writeDouble(rating);
         out.writeString(poster);
         out.writeString(plot);
         out.writeString(date);

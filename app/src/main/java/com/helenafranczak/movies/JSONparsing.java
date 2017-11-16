@@ -40,7 +40,7 @@ public class JSONparsing {
 
                 /* These are the values that will be collected */
                 String movieTitle;
-                Float movieVote;
+                Double movieVote;
                 String moviePoster;
                 String moviePlot;
                 String movieDate;
@@ -51,7 +51,7 @@ public class JSONparsing {
                 JSONObject movieJson = resultsArray.getJSONObject(i);
 
                 movieTitle = movieJson.getString("original_title");
-                movieVote = (Float) movieJson.get("vote_average");
+                movieVote = movieJson.getDouble("vote_average");
                 moviePoster = movieJson.getString("poster_path");
                 moviePlot = movieJson.getString("overview");
                 movieDate = String.valueOf(movieJson.get("release_date"));
