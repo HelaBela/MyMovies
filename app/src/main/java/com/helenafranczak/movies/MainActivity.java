@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
         gridView.setAdapter(myAdapter);
 
-        url = NetworkUtils.buildUrl("popular");
+        url = NetworkUtils.buildUrl(NetworkUtils.POPULAR_URL);
 
 
         new MoviesQuery().execute(url);
@@ -130,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
         int menuItemThatWasSelected= item.getItemId();
         if(menuItemThatWasSelected==R.id.action_popularity){
 
-            mUrl  = NetworkUtils.buildUrl("popular");
+            mUrl  = NetworkUtils.buildUrl(NetworkUtils.POPULAR_URL);
 
             new MoviesQuery().execute(mUrl);
 
@@ -141,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-            mUrl = NetworkUtils.buildUrl("rated");
+            mUrl = NetworkUtils.buildUrl(NetworkUtils.RATED_URL);
 
             new MoviesQuery().execute(mUrl);
         }

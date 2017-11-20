@@ -17,7 +17,7 @@ import java.util.Scanner;
 public class NetworkUtils {
     /** Tag for the log messages */
     public static final String LOG_TAG = NetworkUtils.class.getSimpleName();
-    
+
 
     public static final String POPULAR_URL = "http://api.themoviedb.org/3/movie/popular?api_key=";
 
@@ -32,29 +32,7 @@ public class NetworkUtils {
 
         URL url = null;
 
-
-        switch(MOVIES_URL){
-
-            case"popular":{
-                builtUri = Uri.parse(POPULAR_URL).buildUpon().build();
-
-                break;
-            }
-
-            case"rated":{
-                builtUri = Uri.parse(RATED_URL).buildUpon().build();
-
-                break;
-
-            }
-
-            default:{
-                builtUri = Uri.parse(POPULAR_URL).buildUpon().build();
-
-                break;
-            }
-
-        }
+        builtUri = Uri.parse(MOVIES_URL).buildUpon().build();
 
 
         try {
@@ -62,7 +40,6 @@ public class NetworkUtils {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
-
 
 
         return url;
