@@ -2,6 +2,8 @@ package com.helenafranczak.movies;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.net.URL;
@@ -19,41 +22,34 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    TextView text;
-
     GridView gridView;
-
-    Adapter myAdapter1;
-
-    ArrayAdapter<Movie> myAdapter;
-
-    ArrayList<Movie> moviesList;
     URL url;
 
+    Adapter myAdapter1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-     text = (TextView) findViewById(R.id.text);
 
       gridView = (GridView)findViewById(R.id.grid);
 
-      moviesList = new ArrayList<Movie>();
 
-        myAdapter = new Adapter(MainActivity.this, 0 , moviesList);
-
-
-        gridView.setAdapter(myAdapter);
+        if(isOnline()){
 
         url = NetworkUtils.buildUrl(NetworkUtils.POPULAR_URL);
 
 
-        new MoviesQuery().execute(url);
+      new MoviesQuery().execute(url);
+
+        }else{
+
+            Toast.makeText(this, "no internet conncetion", Toast.LENGTH_LONG).show();}
 
 
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+      gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
@@ -95,23 +91,17 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(ArrayList<Movie> result) {
 
-            //this adaper is to populate the list with updated data
-
-            myAdapter1 = new Adapter(MainActivity.this, 0 , result);
-
-
-            gridView.setAdapter(myAdapter1);
 
             if(result!=null){
 
+                myAdapter1 = new Adapter(MainActivity.this, 0 , result);
 
-                myAdapter.addAll(result);
-                myAdapter.notifyDataSetChanged();
+                gridView.setAdapter(myAdapter1);
 
-                //Log.e("myArray", String.valueOf(moviesArray));
+                myAdapter1.notifyDataSetChanged();
+
 
             }
-
     }
 
 }
@@ -127,26 +117,35 @@ public class MainActivity extends AppCompatActivity {
 
         URL mUrl;
 
-        int menuItemThatWasSelected= item.getItemId();
-        if(menuItemThatWasSelected==R.id.action_popularity){
+        int menuItemThatWasSelected = item.getItemId();
 
-            mUrl  = NetworkUtils.buildUrl(NetworkUtils.POPULAR_URL);
+        if (isOnline()) {
+            if (menuItemThatWasSelected == R.id.action_popularity) {
 
-            new MoviesQuery().execute(mUrl);
+                mUrl = NetworkUtils.buildUrl(NetworkUtils.POPULAR_URL);
+
+                new MoviesQuery().execute(mUrl);
+
+            }
+
+            if (menuItemThatWasSelected == R.id.action_rating) {
 
 
-        }
+                mUrl = NetworkUtils.buildUrl(NetworkUtils.RATED_URL);
 
-        if(menuItemThatWasSelected==R.id.action_rating){
+                new MoviesQuery().execute(mUrl);
+            }
 
+            return super.onOptionsItemSelected(item);
+        } else {  Toast.makeText(this, "no internet conncetion", Toast.LENGTH_LONG).show();}
+        return false;
+    }
 
-
-            mUrl = NetworkUtils.buildUrl(NetworkUtils.RATED_URL);
-
-            new MoviesQuery().execute(mUrl);
-        }
-
-        return super.onOptionsItemSelected(item);
+    private boolean isOnline() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 }
 
