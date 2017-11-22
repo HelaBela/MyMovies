@@ -27,25 +27,61 @@ public class MainActivity extends AppCompatActivity {
 
     Adapter myAdapter1;
 
+    ArrayList<Movie> simpleJsonMovieResponse;
+
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putParcelableArrayList("arrayListKey", simpleJsonMovieResponse);
+
+    }
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
 
-      gridView = (GridView)findViewById(R.id.grid);
+        gridView = (GridView) findViewById(R.id.grid);
 
 
-        if(isOnline()){
+        if (savedInstanceState != null) {
 
-        url = NetworkUtils.buildUrl(NetworkUtils.POPULAR_URL);
+            ArrayList arrayListSaved = savedInstanceState.getParcelableArrayList("arrayListKey");
+
+            myAdapter1.addAll(arrayListSaved); //retrieving previously loaded list
+            gridView.setAdapter(myAdapter1); //adding it to the adapter
+           //setOnItemClickListener(??); ?  - do I need this here as well?
 
 
-      new MoviesQuery().execute(url);
+            //restore the scroll position - do I need a RecyclerView for that?
 
-        }else{
 
-            Toast.makeText(this, "no internet conncetion", Toast.LENGTH_LONG).show();}
+
+            //right now my app crashes when turning the phone
+
+
+
+        } else {
+
+            //check if it's online first and then load the view.
+
+        if (isOnline()) {
+
+            url = NetworkUtils.buildUrl(NetworkUtils.POPULAR_URL);
+
+
+            new MoviesQuery().execute(url);
+
+        } else {
+
+            Toast.makeText(this, "no internet conncetion", Toast.LENGTH_LONG).show();
+        }
+    }
 
 
 
@@ -77,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
                 String jsonMovieResponse = NetworkUtils
                         .getResponseFromHttpUrl(movieUrl);
 
-                ArrayList<Movie> simpleJsonMovieResponse = JSONparsing.getStringsFromJson(MainActivity.this, jsonMovieResponse);
+                simpleJsonMovieResponse = JSONparsing.getStringsFromJson(MainActivity.this, jsonMovieResponse);
 
                 return simpleJsonMovieResponse;
 
