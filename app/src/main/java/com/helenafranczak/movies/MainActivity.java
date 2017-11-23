@@ -7,13 +7,12 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.GridView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -25,9 +24,10 @@ public class MainActivity extends AppCompatActivity {
     GridView gridView;
     URL url;
 
-    Adapter myAdapter1;
+    MyAdapter myAdapter1;
 
     ArrayList<Movie> simpleJsonMovieResponse;
+    RecyclerView recyclerView;
 
 
     @Override
@@ -59,8 +59,6 @@ public class MainActivity extends AppCompatActivity {
 
 
             //restore the scroll position - do I need a RecyclerView for that?
-
-
 
             //right now my app crashes when turning the phone
 
@@ -130,11 +128,11 @@ public class MainActivity extends AppCompatActivity {
 
             if(result!=null){
 
-                myAdapter1 = new Adapter(MainActivity.this, 0 , result);
+                myAdapter1 = new MyAdapter(MainActivity.this, 0 , result);
 
                 gridView.setAdapter(myAdapter1);
 
-                myAdapter1.notifyDataSetChanged();
+                myAdapter1.notifyDataSetChanged(); // why underscored suddenly
 
 
             }
