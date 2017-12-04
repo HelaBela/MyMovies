@@ -7,12 +7,14 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ListAdapter;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -24,10 +26,12 @@ public class MainActivity extends AppCompatActivity {
     GridView gridView;
     URL url;
 
-    MyAdapter myAdapter1;
+    static MyAdapter myAdapter1;
 
     ArrayList<Movie> simpleJsonMovieResponse;
     RecyclerView recyclerView;
+
+    ArrayList arrayListSaved;
 
 
     @Override
@@ -45,22 +49,29 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+
+
 
         gridView = (GridView) findViewById(R.id.grid);
 
 
         if (savedInstanceState != null) {
 
-            ArrayList arrayListSaved = savedInstanceState.getParcelableArrayList("arrayListKey");
+            arrayListSaved = savedInstanceState.getParcelableArrayList("arrayListKey");
+
 
             myAdapter1.addAll(arrayListSaved); //retrieving previously loaded list
-            gridView.setAdapter(myAdapter1); //adding it to the adapter
+
+            recyclerView.setAdapter(myAdapter1); //adding it to the adapter
            //setOnItemClickListener(??); ?  - do I need this here as well?
 
 
-            //restore the scroll position - do I need a RecyclerView for that?
+            //restore the scroll position - do I need a RecyclerView for that? - mentor said yes
 
-            //right now my app crashes when turning the phone
+
 
 
 
@@ -83,19 +94,21 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-      gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-
-                Movie movieDetail = myAdapter1.getItem(position) ;
-                Intent intent = new Intent(MainActivity.this, MovieDetails.class);
-                intent.putExtra("movieDetail", movieDetail);
-                startActivity(intent);
-
-
-            }
-        });
+//      gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//
+//            @Override
+//            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+//
+//                //onclick listener in the adapter
+//
+//                Movie movieDetail = myAdapter1.getItem(position) ;
+//                Intent intent = new Intent(MainActivity.this, MovieDetails.class);
+//                intent.putExtra("movieDetail", movieDetail);
+//                startActivity(intent);
+//
+//
+//            }
+//        });
 
 
     }
@@ -128,11 +141,11 @@ public class MainActivity extends AppCompatActivity {
 
             if(result!=null){
 
-                myAdapter1 = new MyAdapter(MainActivity.this, 0 , result);
+                myAdapter1 = new MyAdapter(MainActivity.this, result);
 
-                gridView.setAdapter(myAdapter1);
+                recyclerView.setAdapter(myAdapter1);
 
-                myAdapter1.notifyDataSetChanged(); // why underscored suddenly
+                myAdapter1.notifyDataSetChanged();
 
 
             }
